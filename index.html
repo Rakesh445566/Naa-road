@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naa Road - Mana Ooru, Mana Badhyatha</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: Arial;
+  margin: 0;
+  padding: 15px;
+  text-align: center;
+  background: linear-gradient(135deg, #FFECD2, #FCB69F, #A1C4FD);
+}
+.top {
+  background: white;
+  padding: 20px;
+  border-radius: 25px;
+  max-width: 550px;
+  margin: 10px auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.top h1 {
+  font-size: 28px;
+  background: linear-gradient(90deg, #FF512F, #DD2476);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.box {
+  padding: 18px;
+  border-radius: 25px;
+  margin: 14px auto;
+  max-width: 550px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  text-align: left;
+}
+.c1 { background: linear-gradient(135deg, #FF512F, #F09819); }
+.c2 { background: linear-gradient(135deg, #11998E, #38EF7D); }
+.c3 { background: linear-gradient(135deg, #8E2DE2, #4A00E0); }
+.c4 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+button {
+  background: white;
+  color: #333;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+button:active { transform: scale(0.95); }
+input, select, textarea {
+  width: 95%;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  margin: 6px 0;
+  font-size: 15px;
+}
+.card {
+  background: white;
+  color: #333;
+  padding: 15px;
+  border-radius: 20px;
+  margin: 10px 0;
+  text-align: left;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.card img { width: 100%; border-radius: 15px; margin-top: 8px; }
+.tag { display: inline-block; padding: 5px 10px; border-radius: 20px; color: white; font-size: 13px; font-weight: bold; }
+.red { background: #FF3B30; } .orange { background: #FF9500; } .blue { background: #007AFF; } .green { background: #34C759; }
+.small { background: white; color: #333; padding: 8px 12px; font-size: 13px; }
+.footer { font-weight: bold; color: #333; margin: 20px; }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>🚧 NAA ROAD 🛣️</h1>
+  <p><b>Mana Ooru, Mana Badhyatha!</b><br>Road lo problem unte photo teesi pettu. 10 mandi support chesthe Municipality ki velthundi!</p>
+  <p>📊 Total Reports: <b id="totalCount">0</b> | ✅ Solved: <b id="solvedCount">0</b></p>
+  <button onclick="filterAll()">🌍 Anni Chudu</button>
+  <button onclick="filterMy()">👑 Naa Reports</button>
+</div>
+
+<div class="box c1">
+  <h2>📸 Kottha Problem Report Chey</h2>
+  <select id="type">
+    <option value="🕳️ Guntha (Pothole)">🕳️ Guntha (Pothole)</option>
+    <option value="💡 Street Light Ledu">💡 Street Light Ledu</option>
+    <option value="🗑️ Chetta - Garbage">🗑️ Chetta / Garbage</option>
+    <option value="💧 Water Leakage">💧 Water Leakage</option>
+    <option value="🚦 Signal Problem">🚦 Signal Problem</option>
+    <option value="🐕 Veedhi Kukkal Problem">🐕 Veedhi Kukkal Problem</option>
+    <option value="🌳 Chettu Padipoyindhi">🌳 Chettu Padipoyindhi</option>
+    <option value="🚧 Road Work Aagipoyindhi">🚧 Road Work Aagipoyindhi</option>
+  </select>
+  <input id="place" placeholder="📍 Place peru - Ex: MVP Colony, Vizag">
+  <textarea id="desc" placeholder="Problem enti? Konchem vivaramga rayi..."></textarea>
+  <p>📷 Photo (Optional):</p>
+  <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)">
+  <img id="photoPreview" style="width:100%;border-radius:15px;display:none">
+  <br><button onclick="addReport()">🚀 Report Pettu</button>
+  <p id="reportMsg"></p>
+</div>
+
+<div class="box c2">
+  <h2>🔥 Top Problems - Andaru Chusinaavi</h2>
+  <p>10 mandi "Nenu kuda chusanu" ante, idi Municipality ki velthundi!</p>
+  <div id="reportList"></div>
+</div>
+
+<div class="box c3">
+  <h2>📲 Share Chey - Ooru Andariki Teliyali</h2>
+  <p>Nee friends, neighbours andarki pampu!</p>
+  <button onclick="shareApp()">📲 WhatsApp lo Share</button>
+  <p id="shareMsg"></p>
+</div>
+
+<div class="box c4">
+  <h2>🆘 Emergency Numbers</h2>
+  <p>🚑 Ambulance: <b>108</b><br>🚓 Police: <b>100</b><br>🔥 Fire: <b>101</b><br>🏛️ GVMC Vizag: <b>1800-425-0009</b></p>
+</div>
+
+<p class="footer">Made with ❤️ by Muthyala Rakesh | Vizag Kosam</p>
+
+<script>
+let reports = [];
+try { reports = JSON.parse(localStorage.getItem("naaRoad") || "[]"); } catch(e) { reports = []; }
+let photoData = "";
+function previewPhoto(e) {
+  let f = e.target.files[0];
+  if(!f) return;
+  let r = new FileReader();
+  r.onload = function() {
+    photoData = r.result;
+    let img = document.getElementById("photoPreview");
+    img.src = photoData; img.style.display = "block";
+  };
+  r.readAsDataURL(f);
+}
+function addReport() {
+  let t = document.getElementById("type").value;
+  let p = document.getElementById("place").value;
+  let d = document.getElementById("desc").value;
+  if(!p) { alert("Place peru rayi KING!"); return; }
+  let newR = { id: Date.now(), type: t, place: p, desc: d, photo: photoData, votes: 1, solved: false, mine: true };
+  reports.unshift(newR);
+  saveAndShow();
+  document.getElementById("reportMsg").innerText = "✅ Report add aindi KING! Ooru kosam manchi pani chesav!";
+  document.getElementById("place").value = "";
+  document.getElementById("desc").value = "";
+  document.getElementById("photoPreview").style.display = "none";
+  photoData = "";
+}
+function saveAndShow() {
+  localStorage.setItem("naaRoad", JSON.stringify(reports));
+  showReports("all");
+}
+function vote(id) {
+  let r = reports.find(x => x.id === id);
+  if(r) { r.votes++; if(r.votes >= 10) { alert("🔥 10 MANDI SUPPORT! Idi ippudu Municipality ki velthundi!"); } }
+  saveAndShow();
+}
+function markSolved(id) {
+  let r = reports.find(x => x.id === id);
+  if(r) { r.solved = true; alert("🎉 GETT! Problem solve aindi! Mana ooru bagupadindhi!"); }
+  saveAndShow();
+}
+function deleteReport(id) {
+  reports = reports.filter(x => x.id !== id);
+  saveAndShow();
+}
+function filterAll() { showReports("all"); }
+function filterMy() { showReports("mine"); }
+function showReports(mode) {
+  let list = document.getElementById("reportList");
+  let show = reports;
+  if(mode === "mine") show = reports.filter(x => x.mine);
+  document.getElementById("totalCount").innerText = reports.length;
+  document.getElementById("solvedCount").innerText = reports.filter(x => x.solved).length;
+  if(show.length === 0) {
+    list.innerHTML = "<div class='card'>Inka reports levu KING! Modati report nuvve pettu!</div>";
+    return;
+  }
+  let html = "";
+  show.forEach(r => {
+    let tagColor = r.votes >= 10 ? "red" : r.votes >= 5 ? "orange" : "blue";
+    let tagText = r.votes >= 10 ? "🔥 MUNICIPALITY KI VELLINDHI" : r.votes + " mandi chusaru";
+    html += "<div class='card'>";
+    html += "<b>" + r.type + "</b><br>";
+    html += "📍 " + r.place + "<br>";
+    html += "<span class='tag " + tagColor + "'>" + tagText + "</span> ";
+    if(r.solved) html += "<span class='tag green'>✅ SOLVED</span>";
+    if(r.desc) html += "<p>" + r.desc + "</p>";
+    if(r.photo) html += "<img src='" + r.photo + "'>";
+    html += "<br><button class='small' onclick='vote(" + r.id + ")'>👍 Nenu Kuda Chusanu (" + r.votes + ")</button>";
+    html += "<button class='small' onclick='markSolved(" + r.id + ")'>✅ Solve Aindi</button>";
+    html += "<button class='small' onclick='deleteReport(" + r.id + ")'>🗑️ Delete</button>";
+    html += "</div>";
+  });
+  list.innerHTML = html;
+}
+showReports("all");
+function shareApp() {
+  let txt = "🚧 NAA ROAD App chudu! Mana ooru lo road problem unte ikkada report chey! " + window.location.href;
+  window.open("https://wa.me/?text=" + encodeURIComponent(txt));
+  document.getElementById("shareMsg").innerText = "Share window open aindi KING!";
+}
+</script>
+</body>
+</html>
