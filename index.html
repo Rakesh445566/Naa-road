@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Naa Road - Mana Ooru, Mana Badhyatha</title>
+<title>Naa Road AP - Mana Andhra, Mana Badhyatha</title>
 <style>
 * { box-sizing: border-box; }
 body {
@@ -17,7 +17,7 @@ body {
   background: white;
   padding: 20px;
   border-radius: 25px;
-  max-width: 550px;
+  max-width: 600px;
   margin: 10px auto;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
@@ -31,7 +31,7 @@ body {
   padding: 18px;
   border-radius: 25px;
   margin: 14px auto;
-  max-width: 550px;
+  max-width: 600px;
   color: white;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   text-align: left;
@@ -40,20 +40,21 @@ body {
 .c2 { background: linear-gradient(135deg, #11998E, #38EF7D); }
 .c3 { background: linear-gradient(135deg, #8E2DE2, #4A00E0); }
 .c4 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+.c5 { background: linear-gradient(135deg, #F7971E, #FFD200); color:#333; }
 button {
   background: white;
   color: #333;
   border: none;
-  padding: 12px 18px;
+  padding: 11px 15px;
   border-radius: 30px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
   margin: 4px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 button:active { transform: scale(0.95); }
 input, select, textarea {
-  width: 95%;
+  width: 96%;
   padding: 12px;
   border-radius: 15px;
   border: none;
@@ -72,22 +73,32 @@ input, select, textarea {
 .card img { width: 100%; border-radius: 15px; margin-top: 8px; }
 .tag { display: inline-block; padding: 5px 10px; border-radius: 20px; color: white; font-size: 13px; font-weight: bold; }
 .red { background: #FF3B30; } .orange { background: #FF9500; } .blue { background: #007AFF; } .green { background: #34C759; }
-.small { background: white; color: #333; padding: 8px 12px; font-size: 13px; }
+.small { background: white; color: #333; padding: 8px 11px; font-size: 13px; }
+.distBtn { background:#FFE0B2; }
 .footer { font-weight: bold; color: #333; margin: 20px; }
 </style>
 </head>
 <body>
 
 <div class="top">
-  <h1>🚧 NAA ROAD 🛣️</h1>
-  <p><b>Mana Ooru, Mana Badhyatha!</b><br>Road lo problem unte photo teesi pettu. 10 mandi support chesthe Municipality ki velthundi!</p>
-  <p>📊 Total Reports: <b id="totalCount">0</b> | ✅ Solved: <b id="solvedCount">0</b></p>
-  <button onclick="filterAll()">🌍 Anni Chudu</button>
+  <h1>🚧 NAA ROAD AP 🛣️</h1>
+  <p><b>Mana Andhra, Mana Badhyatha!</b><br>Anantapur nundi Srikakulam varaku - AP lo ekkada problem unna report chey!</p>
+  <p>📊 Total Reports: <b id="totalCount">0</b> | ✅ Solved: <b id="solvedCount">0</b> | 📍 Districts: <b>26</b></p>
+  <button onclick="filterAll()">🌍 AP Motham</button>
   <button onclick="filterMy()">👑 Naa Reports</button>
+</div>
+
+<div class="box c5">
+  <h2>📍 Nee District Select Chey</h2>
+  <div id="distList"></div>
+  <p id="nowDist"><b>Ippudu Chusthunnavu:</b> AP Motham</p>
 </div>
 
 <div class="box c1">
   <h2>📸 Kottha Problem Report Chey</h2>
+  <select id="district">
+    <option>Anantapur</option><option>Anakapalli</option><option>Alluri Sitharama Raju</option><option>Annamayya</option><option>Bapatla</option><option>Chittoor</option><option>Dr. B.R. Ambedkar Konaseema</option><option>East Godavari</option><option>Eluru</option><option>Guntur</option><option>Kakinada</option><option>Krishna</option><option>Kurnool</option><option>Nandyal</option><option>NTR (Vijayawada)</option><option>Palnadu</option><option>Parvathipuram Manyam</option><option>Prakasam</option><option>Sri Potti Sriramulu Nellore</option><option>Sri Sathya Sai</option><option>Srikakulam</option><option>Tirupati</option><option>Visakhapatnam</option><option>Vizianagaram</option><option>West Godavari</option><option>YSR Kadapa</option>
+  </select>
   <select id="type">
     <option value="🕳️ Guntha (Pothole)">🕳️ Guntha (Pothole)</option>
     <option value="💡 Street Light Ledu">💡 Street Light Ledu</option>
@@ -97,9 +108,10 @@ input, select, textarea {
     <option value="🐕 Veedhi Kukkal Problem">🐕 Veedhi Kukkal Problem</option>
     <option value="🌳 Chettu Padipoyindhi">🌳 Chettu Padipoyindhi</option>
     <option value="🚧 Road Work Aagipoyindhi">🚧 Road Work Aagipoyindhi</option>
+    <option value="🏫 School / Hospital Daggara Problem">🏫 School / Hospital Daggara Problem</option>
   </select>
-  <input id="place" placeholder="📍 Place peru - Ex: MVP Colony, Vizag">
-  <textarea id="desc" placeholder="Problem enti? Konchem vivaramga rayi..."></textarea>
+  <input id="place" placeholder="📍 Place / Mandal / Village - Ex: Anantapur, Clock Tower">
+  <textarea id="desc" placeholder="Problem enti? Vivaramga rayi..."></textarea>
   <p>📷 Photo (Optional):</p>
   <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)">
   <img id="photoPreview" style="width:100%;border-radius:15px;display:none">
@@ -108,29 +120,41 @@ input, select, textarea {
 </div>
 
 <div class="box c2">
-  <h2>🔥 Top Problems - Andaru Chusinaavi</h2>
-  <p>10 mandi "Nenu kuda chusanu" ante, idi Municipality ki velthundi!</p>
+  <h2>🔥 AP Lo Top Problems</h2>
+  <p>10 mandi "Nenu kuda chusanu" ante, idi Municipality / Panchayat ki velthundi!</p>
   <div id="reportList"></div>
 </div>
 
 <div class="box c3">
-  <h2>📲 Share Chey - Ooru Andariki Teliyali</h2>
-  <p>Nee friends, neighbours andarki pampu!</p>
+  <h2>📲 AP Motham Share Chey</h2>
+  <p>Anantapur friends ki, AP lo unna andarki pampu!</p>
   <button onclick="shareApp()">📲 WhatsApp lo Share</button>
   <p id="shareMsg"></p>
 </div>
 
 <div class="box c4">
-  <h2>🆘 Emergency Numbers</h2>
-  <p>🚑 Ambulance: <b>108</b><br>🚓 Police: <b>100</b><br>🔥 Fire: <b>101</b><br>🏛️ GVMC Vizag: <b>1800-425-0009</b></p>
+  <h2>🆘 AP Emergency Numbers</h2>
+  <p>🚑 Ambulance: <b>108</b><br>🚓 Police: <b>100</b><br>🔥 Fire: <b>101</b><br>🏛️ AP Municipal Helpline: <b>1100</b><br>💧 AP Water Helpline: <b>155313</b></p>
 </div>
 
-<p class="footer">Made with ❤️ by Muthyala Rakesh | Vizag Kosam</p>
+<p class="footer">Made with ❤️ by Muthyala Rakesh | Anantapur to AP Motham Kosam</p>
 
 <script>
+let districts = ["Anantapur","Anakapalli","Alluri Sitharama Raju","Annamayya","Bapatla","Chittoor","Dr. B.R. Ambedkar Konaseema","East Godavari","Eluru","Guntur","Kakinada","Krishna","Kurnool","Nandyal","NTR (Vijayawada)","Palnadu","Parvathipuram Manyam","Prakasam","Sri Potti Sriramulu Nellore","Sri Sathya Sai","Srikakulam","Tirupati","Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"];
+let currentDist = "ALL";
 let reports = [];
-try { reports = JSON.parse(localStorage.getItem("naaRoad") || "[]"); } catch(e) { reports = []; }
+try { reports = JSON.parse(localStorage.getItem("naaRoadAP") || "[]"); } catch(e) { reports = []; }
 let photoData = "";
+let distHtml = "";
+districts.forEach(d => { distHtml += "<button class='distBtn' onclick=\"setDist('" + d + "')\">" + d + "</button>"; });
+document.getElementById("distList").innerHTML = distHtml;
+
+function setDist(d) {
+  currentDist = d;
+  document.getElementById("nowDist").innerHTML = "<b>Ippudu Chusthunnavu:</b> " + d;
+  document.getElementById("district").value = d;
+  showReports("dist");
+}
 function previewPhoto(e) {
   let f = e.target.files[0];
   if(!f) return;
@@ -143,21 +167,22 @@ function previewPhoto(e) {
   r.readAsDataURL(f);
 }
 function addReport() {
+  let dist = document.getElementById("district").value;
   let t = document.getElementById("type").value;
   let p = document.getElementById("place").value;
   let d = document.getElementById("desc").value;
   if(!p) { alert("Place peru rayi KING!"); return; }
-  let newR = { id: Date.now(), type: t, place: p, desc: d, photo: photoData, votes: 1, solved: false, mine: true };
+  let newR = { id: Date.now(), dist: dist, type: t, place: p, desc: d, photo: photoData, votes: 1, solved: false, mine: true };
   reports.unshift(newR);
   saveAndShow();
-  document.getElementById("reportMsg").innerText = "✅ Report add aindi KING! Ooru kosam manchi pani chesav!";
+  document.getElementById("reportMsg").innerText = "✅ Report add aindi KING! " + dist + " kosam manchi pani chesav!";
   document.getElementById("place").value = "";
   document.getElementById("desc").value = "";
   document.getElementById("photoPreview").style.display = "none";
   photoData = "";
 }
 function saveAndShow() {
-  localStorage.setItem("naaRoad", JSON.stringify(reports));
+  localStorage.setItem("naaRoadAP", JSON.stringify(reports));
   showReports("all");
 }
 function vote(id) {
@@ -167,23 +192,24 @@ function vote(id) {
 }
 function markSolved(id) {
   let r = reports.find(x => x.id === id);
-  if(r) { r.solved = true; alert("🎉 GETT! Problem solve aindi! Mana ooru bagupadindhi!"); }
+  if(r) { r.solved = true; alert("🎉 GETT! Problem solve aindi! Mana AP bagupaduthundi!"); }
   saveAndShow();
 }
 function deleteReport(id) {
   reports = reports.filter(x => x.id !== id);
   saveAndShow();
 }
-function filterAll() { showReports("all"); }
+function filterAll() { currentDist = "ALL"; document.getElementById("nowDist").innerHTML = "<b>Ippudu Chusthunnavu:</b> AP Motham"; showReports("all"); }
 function filterMy() { showReports("mine"); }
 function showReports(mode) {
   let list = document.getElementById("reportList");
   let show = reports;
   if(mode === "mine") show = reports.filter(x => x.mine);
+  if(mode === "dist") show = reports.filter(x => x.dist === currentDist);
   document.getElementById("totalCount").innerText = reports.length;
   document.getElementById("solvedCount").innerText = reports.filter(x => x.solved).length;
   if(show.length === 0) {
-    list.innerHTML = "<div class='card'>Inka reports levu KING! Modati report nuvve pettu!</div>";
+    list.innerHTML = "<div class='card'>Inka reports levu KING! Modati report nuvve pettu! Anantapur nundi start cheddam!</div>";
     return;
   }
   let html = "";
@@ -191,7 +217,7 @@ function showReports(mode) {
     let tagColor = r.votes >= 10 ? "red" : r.votes >= 5 ? "orange" : "blue";
     let tagText = r.votes >= 10 ? "🔥 MUNICIPALITY KI VELLINDHI" : r.votes + " mandi chusaru";
     html += "<div class='card'>";
-    html += "<b>" + r.type + "</b><br>";
+    html += "<b>" + r.type + "</b> - 📍 " + (r.dist || "") + "<br>";
     html += "📍 " + r.place + "<br>";
     html += "<span class='tag " + tagColor + "'>" + tagText + "</span> ";
     if(r.solved) html += "<span class='tag green'>✅ SOLVED</span>";
@@ -206,7 +232,7 @@ function showReports(mode) {
 }
 showReports("all");
 function shareApp() {
-  let txt = "🚧 NAA ROAD App chudu! Mana ooru lo road problem unte ikkada report chey! " + window.location.href;
+  let txt = "🚧 NAA ROAD AP App chudu! AP lo ekkada road problem unna ikkada report chey! Anantapur nundi AP motham kosam! " + window.location.href;
   window.open("https://wa.me/?text=" + encodeURIComponent(txt));
   document.getElementById("shareMsg").innerText = "Share window open aindi KING!";
 }
